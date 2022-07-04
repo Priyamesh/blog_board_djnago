@@ -1,40 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+{% block breadcrumb %}
+<li class="breadcrumb-item active">Boards</li>
+{% endblock %}
 
-<body>
+{% block content %}
+<table class="table">
+    <thead class="thead-inverse">
+        <tr>
+            <th>Board</th>
+            <th>Posts</th>
+            <th>Topics</th>
+            <th>Last Post</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in boards %}
+        <tr>
+            <td><a href="{% url 'board_topics' item.pk %}">{{item.name}}</a><br> <small
+                    class="text-muted d-block">{{item.description}}</small> </td>
+            <td class="align-middle">0</td>
+            <td class="align-middle">0</td>
+            <td>-</td>
+        </tr>
+        {% endfor %}
 
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Board</th>
-                <th>Posts</th>
-                <th>Topics</th>
-                <th>Last Post</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in boards %}
-            <tr>
-                <td>{{item.name}}<br> <small style="color: #888">{{item.description}}</small> </td>
-                <td>0</td>
-                <td>0</td>
-                <td>-</td>
-            </tr>
-            {% endfor %}
+    </tbody>
 
-        </tbody>
-
-    </table>
-
-
-
-</body>
-
-</html>
+</table>
+{% endblock %}
