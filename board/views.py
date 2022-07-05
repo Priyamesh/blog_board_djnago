@@ -25,15 +25,20 @@ def board_topics(request, pk):
 
 def new_topic(request, pk):
     board = get_object_or_404(Board, pk=pk)
-
+    user = User.objects.first()
+    form = NewTopicForm()
     if request.method == "POST":
-        form = NewTopicForm(request.Post)
+        form = NewTopicForm(request.POST)
         if form.is_valid():
-            form.save()
+            topic = form.save(commit=False)
+            topic.board = board
+            topic.starter = user
+            topic.save()
+            post = Post.objects.create(
+                message=form.cleaned_data.get("message"), topic=topic, created_by=user
+            )
 
         return redirect("board_topics", pk=board.pk)
-    else:
-        form = NewTopicForm()
 
     context = {"board": board, "form": form}
     return render(request, "new_topic.html", context)
