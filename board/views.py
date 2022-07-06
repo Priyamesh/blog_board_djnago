@@ -25,7 +25,10 @@ def board_topics(request, pk):
 
 def new_topic(request, pk):
     board = get_object_or_404(Board, pk=pk)
-    user = User.objects.first()
+    # user = User.objects.first()
+    user = request.user
+    print(user)
+    print(request.user)
     form = NewTopicForm()
     if request.method == "POST":
         form = NewTopicForm(request.POST)
